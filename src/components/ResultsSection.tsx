@@ -1,36 +1,78 @@
+import {useState} from 'react';
 import {Award} from 'lucide-react';
 import {StudentPlaceholderAvatar} from './Icons';
 
-const PLACEHOLDER_ACHIEVERS = [
+interface AchieverCard {
+  id: string;
+  name: string;
+  classLabel: string;
+  photoSrc: string;
+  photoAlt: string;
+  examName: string;
+  rankPlaceholder: string;
+  badgePlaceholder: string;
+}
+
+const SAMPLE_ACHIEVERS: AchieverCard[] = [
   {
     id: 'achiever-1',
-    namePlaceholder: '[Student Name Placeholder 01]',
+    name: 'Ram',
+    classLabel: 'Class 12th · Sample Profile',
+    photoSrc: '/src/assets/images/student_ram_profile_1795269184810.jpg',
+    photoAlt: 'Sample profile photo of Ram, Class 12th student',
     examName: 'JEE Main / Advanced',
     rankPlaceholder: '[Verified Rank / Percentile Placeholder]',
     badgePlaceholder: '[Achievement Badge Placeholder]',
   },
   {
     id: 'achiever-2',
-    namePlaceholder: '[Student Name Placeholder 02]',
+    name: 'Sita',
+    classLabel: 'Class 12th · Sample Profile',
+    photoSrc: '/src/assets/images/student_sita_profile_1795269185769.jpg',
+    photoAlt: 'Sample profile photo of Sita, Class 12th student',
     examName: 'NEET (UG)',
     rankPlaceholder: '[Verified Score / Rank Placeholder]',
     badgePlaceholder: '[Achievement Badge Placeholder]',
   },
   {
     id: 'achiever-3',
-    namePlaceholder: '[Student Name Placeholder 03]',
+    name: 'Lakhmana',
+    classLabel: 'Class 12th · Sample Profile',
+    photoSrc: '/src/assets/images/student_lakhmana_profile_1795269185963.jpg',
+    photoAlt: 'Sample profile photo of Lakhmana, Class 12th student',
     examName: 'Class 12th Board Exam',
     rankPlaceholder: '[Verified Percentage Placeholder]',
     badgePlaceholder: '[Achievement Badge Placeholder]',
   },
   {
     id: 'achiever-4',
-    namePlaceholder: '[Student Name Placeholder 04]',
+    name: 'Urmila',
+    classLabel: 'Class 12th · Sample Profile',
+    photoSrc: '/src/assets/images/student_urmila_profile_1795269185598.jpg',
+    photoAlt: 'Sample profile photo of Urmila, Class 12th student',
     examName: 'JEE / Foundation Batch',
     rankPlaceholder: '[Verified Rank / Score Placeholder]',
     badgePlaceholder: '[Achievement Badge Placeholder]',
   },
 ];
+
+function StudentAvatar({src, alt}: {src: string; alt: string}) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return <StudentPlaceholderAvatar className="w-16 h-16" />;
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      referrerPolicy="no-referrer"
+      onError={() => setHasError(true)}
+      className="w-16 h-16 rounded-full object-cover object-top border-2 border-[#2563EB]/20 bg-slate-100 shrink-0"
+    />
+  );
+}
 
 export function ResultsSection() {
   return (
@@ -52,24 +94,24 @@ export function ResultsSection() {
             </p>
           </div>
           <p className="text-xs font-medium text-slate-500 max-w-sm">
-            Editable placeholder cards shown below. Verified student photos, names, and official exam results will be published here once confirmed.
+            Sample student profiles shown below. Official exam ranks and verified results will be updated upon declaration.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {PLACEHOLDER_ACHIEVERS.map((student) => (
+          {SAMPLE_ACHIEVERS.map((student) => (
             <article
               key={student.id}
               className="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col"
             >
               <div className="flex items-center gap-3.5 mb-5">
-                <StudentPlaceholderAvatar className="w-16 h-16" />
+                <StudentAvatar src={student.photoSrc} alt={student.photoAlt} />
                 <div className="min-w-0">
-                  <span className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                    Photo Placeholder
+                  <span className="block text-[11px] font-semibold uppercase tracking-wider text-[#2563EB]">
+                    {student.classLabel}
                   </span>
-                  <h3 className="font-display text-sm font-bold text-[#142B52] mt-0.5 leading-snug">
-                    {student.namePlaceholder}
+                  <h3 className="font-display text-base font-bold text-[#142B52] mt-0.5 leading-snug">
+                    {student.name}
                   </h3>
                 </div>
               </div>
